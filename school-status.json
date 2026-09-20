@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "school": "沖縄県立那覇商業高等学校 全日制",
+  "updatedAt": "2026-09-21T00:00:00+09:00",
+  "sourceUrl": "https://www.naha-ch.open.ed.jp/post-6.html",
+  "sourceLabel": "那覇商業高校 公式・行事計画表",
+  "vacationRanges": [
+    {
+      "name": "夏季休業",
+      "start": "2026-07-18",
+      "end": "2026-08-30",
+      "note": "公式計画の1学期終業式7/17・2学期始業式8/31から設定"
+    },
+    {
+      "name": "冬季休業",
+      "start": "2026-12-26",
+      "end": "2027-01-05",
+      "note": "公式計画の2学期終業式12/25・3学期始業式1/6から設定"
+    }
+  ],
+  "forceHolidayDates": [],
+  "forceSchoolDates": [],
+  "uncertainDates": [],
+  "message": "春季休業や変更告知は、公式情報が確定したらこのファイルを更新してください。"
+}

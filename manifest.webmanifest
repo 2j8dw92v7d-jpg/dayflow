@@ -1,3 +1,15 @@
 {
-  "name":"DayFlow","short_name":"DayFlow","start_url":"./","display":"standalone","background_color":"#f4f5f7","theme_color":"#f4f5f7","lang":"ja","icons":[{"src":"icons/icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icons/icon-512.png","sizes":"512x512","type":"image/png"}]
+  "name": "DayFlow",
+  "short_name": "DayFlow",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f5f7",
+  "theme_color": "#f5f5f7",
+  "lang": "ja",
+  "description": "学校・部活・筋トレ・睡眠をまとめる1日スケジュール",
+  "icons": [
+    {"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
 }

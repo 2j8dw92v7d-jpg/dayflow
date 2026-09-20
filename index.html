@@ -2,162 +2,258 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#f6f7f9" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f5f5f7" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="DayFlow" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
   <title>DayFlow</title>
   <style>
-    :root{--bg:#f4f5f7;--card:#fff;--text:#121316;--muted:#6b7078;--line:#e6e8eb;--accent:#0a84ff;--danger:#ff3b30;--shadow:0 10px 30px rgba(0,0,0,.06)}
-    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Hiragino Sans",sans-serif}
-    .wrap{max-width:760px;margin:auto;padding:calc(env(safe-area-inset-top) + 18px) 16px calc(env(safe-area-inset-bottom) + 40px)}
-    header{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 18px}.brand{font-size:30px;font-weight:800;letter-spacing:-.8px}.date{font-size:13px;color:var(--muted);text-align:right}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin:12px 0;box-shadow:var(--shadow)}
-    .hero{padding:22px}.kicker{font-size:13px;color:var(--muted);font-weight:700}.next{font-size:28px;font-weight:800;margin-top:7px;letter-spacing:-.5px}.sub{color:var(--muted);font-size:14px;margin-top:6px}
-    .progress{height:8px;background:#eceef1;border-radius:999px;margin-top:18px;overflow:hidden}.bar{height:100%;width:0;background:var(--accent);border-radius:999px;transition:.3s}
-    h2{font-size:18px;margin:0 0 12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:16px;padding:14px;text-align:left;font-size:15px;font-weight:700;min-height:58px}.btn small{display:block;color:var(--muted);font-weight:500;margin-top:4px}.btn.active{border-color:var(--accent);box-shadow:0 0 0 3px rgba(10,132,255,.12)}
-    .primary{width:100%;border:0;border-radius:16px;background:var(--accent);color:#fff;padding:15px 18px;font-size:16px;font-weight:800}.secondary{width:100%;border:1px solid var(--line);border-radius:16px;background:#fff;color:var(--text);padding:13px 18px;font-size:15px;font-weight:700;margin-top:10px}.danger{color:var(--danger)}
-    .timeline{display:grid;gap:0}.event{display:grid;grid-template-columns:66px 22px 1fr;gap:8px;align-items:start}.event .time{font-variant-numeric:tabular-nums;font-weight:700;font-size:14px;padding-top:2px}.dotcol{position:relative;display:flex;justify-content:center;height:52px}.dot{width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:5px;z-index:2}.dotcol:after{content:"";position:absolute;top:14px;bottom:-7px;width:2px;background:var(--line)}.event:last-child .dotcol:after{display:none}.label{font-weight:700;font-size:15px}.desc{font-size:12px;color:var(--muted);margin-top:2px}
-    .badge{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#eef6ff;color:#0065c8;font-weight:700;font-size:12px}.row{display:flex;gap:10px;align-items:center;justify-content:space-between}.hint{font-size:12px;color:var(--muted);line-height:1.55}.hidden{display:none}.pill{padding:6px 10px;border-radius:999px;background:#f0f1f3;font-size:12px;font-weight:700;color:var(--muted)}
-    @media(max-width:460px){.grid{grid-template-columns:1fr}.brand{font-size:28px}.next{font-size:24px}}
+    :root{
+      --bg:#f5f5f7; --card:#fff; --text:#111114; --muted:#6e6e73; --line:#e5e5ea;
+      --accent:#007aff; --accent-soft:#eaf4ff; --green:#30b56a; --green-soft:#eaf8f0;
+      --orange:#ff9f0a; --orange-soft:#fff5df; --red:#ff3b30; --shadow:0 10px 28px rgba(0,0,0,.055);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html{background:var(--bg)}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Hiragino Sans","Yu Gothic",sans-serif}
+    button,input{font:inherit}
+    .wrap{max-width:760px;margin:auto;padding:calc(env(safe-area-inset-top) + 14px) 14px calc(env(safe-area-inset-bottom) + 34px)}
+    .top{display:flex;justify-content:space-between;align-items:flex-start;padding:4px 4px 14px}
+    .brand{font-size:32px;font-weight:850;letter-spacing:-1.1px}.today{font-size:13px;color:var(--muted);text-align:right;line-height:1.4}
+    .card{background:var(--card);border:1px solid rgba(0,0,0,.05);border-radius:24px;padding:18px;margin:10px 0;box-shadow:var(--shadow)}
+    .hero{padding:20px}.eyebrow{font-size:12px;font-weight:750;color:var(--muted);letter-spacing:.1px}.hero-title{font-size:28px;font-weight:850;letter-spacing:-.7px;margin-top:6px}.hero-sub{font-size:14px;color:var(--muted);margin-top:5px;line-height:1.5}
+    .statusrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.status{border-radius:18px;padding:13px 14px;border:1px solid var(--line);background:#fafafa}.status .label{font-size:11px;color:var(--muted);font-weight:700}.status .value{font-size:16px;font-weight:800;margin-top:3px}.status.school{background:var(--accent-soft);border-color:#d6eaff}.status.holiday{background:var(--green-soft);border-color:#d6f0e1}.status.uncertain{background:var(--orange-soft);border-color:#ffe5ae}
+    .progress{height:8px;background:#ececf0;border-radius:99px;overflow:hidden;margin-top:16px}.progress>div{height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .25s ease}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.section-head h2{font-size:18px;margin:0;letter-spacing:-.2px}.mini{font-size:12px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{border:1px solid var(--line);background:#fff;border-radius:17px;padding:13px;text-align:left;min-height:62px;font-size:14px;font-weight:800}.choice small{display:block;margin-top:4px;color:var(--muted);font-weight:550;font-size:12px}.choice.active{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,122,255,.12);background:#fbfdff}
+    .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;background:#f0f0f3;border-radius:15px;padding:4px}.seg button{border:0;border-radius:12px;padding:10px 7px;background:transparent;font-weight:750;font-size:13px;color:var(--muted)}.seg button.active{background:#fff;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+    .primary,.secondary{width:100%;border-radius:16px;padding:14px 16px;font-size:15px;font-weight:800}.primary{border:0;background:var(--accent);color:#fff}.secondary{border:1px solid var(--line);background:#fff;color:var(--text);margin-top:9px}.secondary:active,.choice:active{transform:scale(.99)}
+    .timeline{display:grid}.event{display:grid;grid-template-columns:62px 24px 1fr;gap:7px;min-height:56px}.time{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;padding-top:2px}.rail{position:relative;display:flex;justify-content:center}.dot{width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:5px;z-index:2}.rail:after{content:"";position:absolute;width:2px;background:var(--line);top:14px;bottom:-2px}.event:last-child .rail:after{display:none}.evt-title{font-size:15px;font-weight:800}.evt-desc{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.45}.done .dot{background:#b8b8bd}.done .evt-title,.done .time{color:#8e8e93}
+    .info{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.info:last-child{border-bottom:0}.info-icon{width:34px;height:34px;border-radius:11px;background:#f1f1f4;display:flex;align-items:center;justify-content:center}.info-main{flex:1;min-width:0}.info-title{font-weight:750;font-size:14px}.info-sub{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pill{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border-radius:999px;background:#f1f1f4;color:var(--muted);font-size:11px;font-weight:750}
+    .gymbar{display:flex;align-items:center;gap:12px}.gymnum{font-size:30px;font-weight:850;letter-spacing:-1px}.gymtrack{height:9px;border-radius:99px;background:#ececf0;overflow:hidden;flex:1}.gymtrack>div{height:100%;background:var(--green);width:0;border-radius:99px}.gymtarget{font-size:12px;color:var(--muted)}
+    .settings{display:none}.settings.show{display:block}.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}.switch{position:relative;width:51px;height:31px;background:#d1d1d6;border-radius:99px;flex:none;transition:.2s}.switch:after{content:"";position:absolute;width:27px;height:27px;background:#fff;border-radius:50%;left:2px;top:2px;box-shadow:0 1px 4px rgba(0,0,0,.18);transition:.2s}.switch.on{background:#34c759}.switch.on:after{left:22px}
+    .notice{border-radius:16px;background:#f7f7f9;padding:12px 13px;font-size:12px;color:var(--muted);line-height:1.6}.warning{background:var(--orange-soft);color:#805000}.hidden{display:none!important}.footer{font-size:11px;color:#8e8e93;text-align:center;line-height:1.5;padding:10px 6px}
+    @media(max-width:480px){.grid{grid-template-columns:1fr}.brand{font-size:30px}.hero-title{font-size:25px}.statusrow{grid-template-columns:1fr 1fr}}
   </style>
 </head>
 <body>
 <div class="wrap">
-  <header><div class="brand">DayFlow</div><div class="date" id="dateLabel"></div></header>
+  <div class="top">
+    <div class="brand">DayFlow</div>
+    <div class="today" id="todayLabel"></div>
+  </div>
+
   <section class="card hero">
-    <div class="row"><div class="kicker">今日の次の予定</div><div class="pill" id="modePill">未設定</div></div>
-    <div class="next" id="nextTitle">スケジュールを選択</div>
-    <div class="sub" id="nextTime">12:00に選ぶ想定です</div>
-    <div class="progress"><div class="bar" id="progressBar"></div></div>
+    <div class="eyebrow">NEXT</div>
+    <div class="hero-title" id="nextTitle">今日の予定を選択</div>
+    <div class="hero-sub" id="nextSub">重要な予定だけをまとめます。</div>
+    <div class="statusrow">
+      <div class="status" id="todayStatus"><div class="label">今日</div><div class="value" id="todayStatusText">判定中</div></div>
+      <div class="status" id="tomorrowStatus"><div class="label">明日</div><div class="value" id="tomorrowStatusText">判定中</div></div>
+    </div>
+    <div class="progress"><div id="dayProgress"></div></div>
   </section>
 
-  <section class="card" id="selectorCard">
-    <h2 id="selectorTitle">今日のスケジュール</h2>
-    <div id="schoolBlock">
-      <div class="kicker" style="margin-bottom:8px">学校の日課</div>
+  <section class="card">
+    <div class="section-head"><h2>今日の予定</h2><span class="pill" id="modePill">自動判定</span></div>
+    <div id="schoolChoicesWrap">
+      <div class="eyebrow" style="margin-bottom:8px">学校の日課</div>
       <div class="grid" id="schoolGrid"></div>
+      <div style="height:14px"></div>
     </div>
-    <div style="height:14px"></div>
-    <div class="kicker" style="margin-bottom:8px" id="afterKicker">放課後</div>
+    <div class="eyebrow" id="afterLabel" style="margin-bottom:8px">放課後</div>
     <div class="grid" id="afterGrid"></div>
     <div style="height:14px"></div>
     <button class="primary" id="applyBtn">この予定にする</button>
-    <div class="hint" style="margin-top:10px">選択した予定はこの端末に保存されます。通知登録は下の「iPhone通知用カレンダーを書き出す」から行えます。</div>
   </section>
 
   <section class="card">
-    <div class="row"><h2 style="margin:0">今日のタイムライン</h2><span class="badge" id="scheduleBadge">未設定</span></div>
-    <div style="height:14px"></div>
+    <div class="section-head"><h2>今日のタイムライン</h2><span class="pill" id="scheduleCode">未設定</span></div>
     <div class="timeline" id="timeline"></div>
-    <button class="secondary" id="icsBtn">iPhone通知用カレンダーを書き出す</button>
-    <button class="secondary" id="testBtn">10秒後のテスト通知</button>
-    <div class="hint" style="margin-top:10px">iPhoneだけで正確な時刻通知を確実に出すため、カレンダー書き出しでは各重要予定にアラートを付けます。Webアプリを閉じた状態での独自通知はiOSの制約上、静的Webアプリだけでは保証できません。</div>
+    <button class="primary" id="icsBtn">iPhone通知用カレンダーを作る</button>
+    <button class="secondary" id="copyBtn">今日の選択コードをコピー</button>
+    <div class="notice" style="margin-top:10px">学校終了・筋トレ・部活終了・お風呂準備・入浴・就寝準備・就寝だけを書き出します。就寝準備と就寝は、ショートカット版では強いアラームにする想定です。</div>
   </section>
 
   <section class="card">
-    <h2>ホーム画面に追加</h2>
-    <div class="hint">Safariで開き、共有ボタン →「ホーム画面に追加」。以後は通常のアプリのように起動できます。</div>
+    <div class="section-head"><h2>今週の筋トレ</h2><span class="gymtarget">目標 4回</span></div>
+    <div class="gymbar"><div class="gymnum" id="gymCount">0</div><div class="gymtrack"><div id="gymBar"></div></div></div>
+    <div class="mini" id="gymMessage" style="margin-top:8px">今週の選択から自動集計します。</div>
   </section>
+
+  <section class="card">
+    <div class="section-head"><h2>学校情報</h2><button class="secondary" id="refreshBtn" style="width:auto;margin:0;padding:9px 12px">更新</button></div>
+    <div class="info"><div class="info-icon">🏫</div><div class="info-main"><div class="info-title">那覇商業高校・全日制</div><div class="info-sub" id="schoolSource">オンライン情報を確認中</div></div></div>
+    <div class="info"><div class="info-icon">🌙</div><div class="info-main"><div class="info-title">今夜のモード</div><div class="info-sub" id="nightModeText">明日の学校/休みに合わせて自動調整</div></div></div>
+    <div class="info"><div class="info-icon">🛁</div><div class="info-main"><div class="info-title">入浴</div><div class="info-sub" id="bathInfo">10分前に給湯 → 浴槽10分</div></div></div>
+    <div class="notice warning hidden" id="uncertainNotice" style="margin-top:10px"></div>
+  </section>
+
+  <section class="card">
+    <div class="section-head"><h2>設定</h2><button class="secondary" id="settingsBtn" style="width:auto;margin:0;padding:9px 12px">開く</button></div>
+    <div class="settings" id="settingsPanel">
+      <div class="toggle-row">
+        <div><div style="font-weight:750;font-size:14px">長期休暇モード</div><div class="mini">ONなら曜日に関係なく毎日休日扱い</div></div>
+        <button class="switch" id="vacationSwitch" aria-label="長期休暇モード"></button>
+      </div>
+      <div style="height:8px"></div>
+      <div class="eyebrow" style="margin-bottom:7px">今日だけ手動上書き</div>
+      <div class="seg" id="todayOverride"><button data-v="auto">自動</button><button data-v="school">学校</button><button data-v="holiday">休み</button></div>
+      <div style="height:12px"></div>
+      <div class="eyebrow" style="margin-bottom:7px">明日だけ手動上書き</div>
+      <div class="seg" id="tomorrowOverride"><button data-v="auto">自動</button><button data-v="school">学校</button><button data-v="holiday">休み</button></div>
+      <div class="notice" style="margin-top:12px">公式情報が不確実な日や、学校独自の休みが分かった日にだけ手動上書きを使えます。</div>
+    </div>
+  </section>
+
+  <div class="footer">DayFlow v2 ・ データは端末内に保存されます</div>
 </div>
 <script>
-const schoolTypes = [
-  ['①','50分授業','15:55'],['②','那商TIME','15:55'],['③','特別日課45分','15:05'],['④','45分授業','15:25'],['⑤','特別日課','15:35'],['⑥','那商TIME45分','15:50']
+const schoolTypes=[
+  ['①','50分授業','15:55'],['②','那商TIME','15:55'],['③','特別日課45分','15:05'],
+  ['④','45分授業','15:25'],['⑤','特別日課','15:35'],['⑥','那商TIME45分','15:50']
 ];
-const afterTypes = [
-  ['A','🏋️ 筋トレ90分'],['B','🎸 部活19:00まで'],['D','🏠 休養']
-];
-const holidayTypes = [
-  ['H1','🏋️ 筋トレ90分'],['H2','🎸 部活19:00まで'],['H3','🛌 完全休養']
-];
-let selectedSchool = localStorage.getItem('school') || '①';
-let selectedAfter = localStorage.getItem('after') || 'A';
+const schoolAfter=[['A','🏋️ 筋トレ90分'],['B','🎸 部活19:00まで'],['D','🏠 休養']];
+const holidayAfter=[['H1','🏋️ 筋トレ90分'],['H2','🎸 部活19:00まで'],['H3','🛌 完全休養']];
+let remoteStatus=null;
+let selectedSchool='①';
+let selectedAfter='A';
 
-function pad(n){return String(n).padStart(2,'0')}
-function key(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
-function nthMonday(y,m,n){let d=new Date(y,m-1,1), offset=(8-d.getDay())%7; return 1+offset+(n-1)*7}
-function equinoxDay(y,type){ // good approximation 1980-2099
-  if(type==='spring') return Math.floor(20.8431 + 0.242194*(y-1980) - Math.floor((y-1980)/4));
-  return Math.floor(23.2488 + 0.242194*(y-1980) - Math.floor((y-1980)/4));
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,'0');
+const dateKey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const formatDate=d=>new Intl.DateTimeFormat('ja-JP',{month:'long',day:'numeric',weekday:'short'}).format(d);
+const toMin=t=>{const[a,b]=t.split(':').map(Number);return a*60+b};
+const addMin=(t,m)=>{let v=toMin(t)+m;return `${pad(Math.floor(v/60)%24)}:${pad(v%60)}`};
+const atToday=t=>{const[h,m]=t.split(':').map(Number);const d=new Date();d.setHours(h,m,0,0);return d};
+const inRange=(k,a,b)=>k>=a&&k<=b;
+
+function nthMonday(y,m,n){const d=new Date(y,m-1,1);const off=(8-d.getDay())%7;return 1+off+(n-1)*7}
+function equinoxDay(y,type){return type==='spring'?Math.floor(20.8431+.242194*(y-1980)-Math.floor((y-1980)/4)):Math.floor(23.2488+.242194*(y-1980)-Math.floor((y-1980)/4))}
+function baseHolidays(y){const s=new Set(),add=(m,d)=>s.add(`${y}-${pad(m)}-${pad(d)}`);add(1,1);add(1,nthMonday(y,1,2));add(2,11);add(2,23);add(3,equinoxDay(y,'spring'));add(4,29);add(5,3);add(5,4);add(5,5);add(7,nthMonday(y,7,3));add(8,11);add(9,nthMonday(y,9,3));add(9,equinoxDay(y,'autumn'));add(10,nthMonday(y,10,2));add(11,3);add(11,23);return s}
+function japanHolidays(y){const s=baseHolidays(y);for(let d=new Date(y,0,2);d<=new Date(y,11,30);d.setDate(d.getDate()+1)){const k=dateKey(d);if(s.has(k))continue;const p=addDays(d,-1),n=addDays(d,1);if(s.has(dateKey(p))&&s.has(dateKey(n)))s.add(k)}for(const k of [...s]){const d=new Date(`${k}T00:00:00`);if(d.getDay()===0){let x=new Date(d);do{x=addDays(x,1)}while(s.has(dateKey(x)));s.add(dateKey(x))}}return s}
+function publicHoliday(d){return d.getDay()===0||d.getDay()===6||japanHolidays(d.getFullYear()).has(dateKey(d))}
+
+function manualOverride(which){return localStorage.getItem(`override:${which}:${dateKey(which==='today'?new Date():addDays(new Date(),1))}`)||'auto'}
+function setManualOverride(which,v){localStorage.setItem(`override:${which}:${dateKey(which==='today'?new Date():addDays(new Date(),1))}`,v)}
+function vacationMode(){return localStorage.getItem('vacationMode')==='1'}
+function remoteDecision(d){
+  if(!remoteStatus)return null;
+  const k=dateKey(d);
+  if((remoteStatus.forceSchoolDates||[]).includes(k))return {mode:'school',reason:'学校公式の登校日設定'};
+  if((remoteStatus.forceHolidayDates||[]).includes(k))return {mode:'holiday',reason:'学校公式の休日設定'};
+  if((remoteStatus.uncertainDates||[]).includes(k))return {mode:'uncertain',reason:'学校情報が未確定'};
+  const r=(remoteStatus.vacationRanges||[]).find(x=>inRange(k,x.start,x.end));
+  if(r)return {mode:'holiday',reason:r.name||'長期休業'};
+  return null;
 }
-function baseJapanHolidays(y){
-  const s=new Set(); const add=(m,d)=>s.add(`${y}-${pad(m)}-${pad(d)}`);
-  add(1,1); add(1,nthMonday(y,1,2)); add(2,11); if(y>=2020) add(2,23); add(3,equinoxDay(y,'spring'));
-  add(4,29); add(5,3); add(5,4); add(5,5); add(7,nthMonday(y,7,3)); add(8,11);
-  add(9,nthMonday(y,9,3)); add(9,equinoxDay(y,'autumn')); add(10,nthMonday(y,10,2)); add(11,3); add(11,23);
-  return s;
+function dayDecision(d,which){
+  const ov=manualOverride(which);
+  if(ov==='school')return {mode:'school',reason:'手動設定'};
+  if(ov==='holiday')return {mode:'holiday',reason:'手動設定'};
+  if(vacationMode())return {mode:'holiday',reason:'長期休暇モード'};
+  const rd=remoteDecision(d);if(rd)return rd;
+  if(publicHoliday(d))return {mode:'holiday',reason:d.getDay()===0||d.getDay()===6?'土日':'国民の祝日・休日'};
+  return {mode:'school',reason:'通常登校日'};
 }
-function japanHolidays(y){
-  const s=baseJapanHolidays(y);
-  // citizens' holiday between two holidays
-  for(let d=new Date(y,0,2); d<=new Date(y,11,30); d.setDate(d.getDate()+1)){
-    const k=key(d); if(s.has(k)) continue;
-    const p=new Date(d);p.setDate(p.getDate()-1); const n=new Date(d);n.setDate(n.getDate()+1);
-    if(s.has(key(p)) && s.has(key(n))) s.add(k);
-  }
-  // substitute holidays: Sunday holiday -> next non-holiday
-  const originals=[...s];
-  for(const k of originals){const d=new Date(k+'T00:00:00'); if(d.getDay()===0){let x=new Date(d);do{x.setDate(x.getDate()+1)}while(s.has(key(x))); s.add(key(x));}}
-  return s;
+
+function scheduleStorageKey(){return `schedule:${dateKey(new Date())}`}
+function loadSelection(){const saved=JSON.parse(localStorage.getItem(scheduleStorageKey())||'null');if(saved){selectedSchool=saved.school||'①';selectedAfter=saved.after||'A';return}selectedSchool=localStorage.getItem('lastSchool')||'①';selectedAfter=localStorage.getItem('lastAfter')||'A'}
+function saveSelection(){const mode=dayDecision(new Date(),'today').mode;localStorage.setItem(scheduleStorageKey(),JSON.stringify({school:selectedSchool,after:selectedAfter,mode,createdAt:new Date().toISOString()}));localStorage.setItem('lastSchool',selectedSchool);localStorage.setItem('lastAfter',selectedAfter)}
+
+function setStatusBox(el,decision,textEl){el.className='status '+(decision.mode==='school'?'school':decision.mode==='holiday'?'holiday':'uncertain');textEl.textContent=decision.mode==='school'?'学校':decision.mode==='holiday'?'休日':'未確定'}
+function renderHeader(){
+  const today=new Date(),tom=addDays(today,1),td=dayDecision(today,'today'),md=dayDecision(tom,'tomorrow');
+  $('todayLabel').innerHTML=`${formatDate(today)}<br>${dateKey(today)}`;
+  setStatusBox($('todayStatus'),td,$('todayStatusText'));setStatusBox($('tomorrowStatus'),md,$('tomorrowStatusText'));
+  $('modePill').textContent=td.reason;
+  const schoolTomorrow=md.mode==='school';
+  $('nightModeText').textContent=md.mode==='uncertain'?'明日の登校有無が未確定':schoolTomorrow?'学校日前夜：21:30就寝':'休日前夜：22:30就寝';
+  $('bathInfo').textContent=schoolTomorrow?'19:35給湯 → 19:45入浴 → 浴槽10分':'20:35給湯 → 20:45入浴 → 浴槽10分';
+  const unc=[td.mode==='uncertain'?'今日':null,md.mode==='uncertain'?'明日':null].filter(Boolean);
+  $('uncertainNotice').classList.toggle('hidden',!unc.length);if(unc.length)$('uncertainNotice').textContent=`${unc.join('・')}の学校情報が未確定です。設定から手動で「学校 / 休み」を選べます。`;
 }
-function isHoliday(d){return d.getDay()===0||d.getDay()===6||japanHolidays(d.getFullYear()).has(key(d));}
-function formatDate(d){return new Intl.DateTimeFormat('ja-JP',{month:'long',day:'numeric',weekday:'short'}).format(d)}
-function toMin(t){const[a,b]=t.split(':').map(Number);return a*60+b}
-function addMin(t,m){let v=toMin(t)+m;return `${pad(Math.floor(v/60)%24)}:${pad(v%60)}`}
-function todayAt(t){const [h,m]=t.split(':').map(Number),d=new Date();d.setHours(h,m,0,0);return d}
+
 function renderSelectors(){
-  const hol=isHoliday(new Date());
-  document.getElementById('dateLabel').innerHTML=`${formatDate(new Date())}<br>${hol?'休日モード':'学校日モード'}`;
-  document.getElementById('schoolBlock').classList.toggle('hidden',hol);
-  document.getElementById('selectorTitle').textContent=hol?'休日・祝日のスケジュール':'今日のスケジュール';
-  document.getElementById('afterKicker').textContent=hol?'今日のプラン':'放課後';
-  const sg=document.getElementById('schoolGrid');sg.innerHTML='';
-  schoolTypes.forEach(([code,name,end])=>{const b=document.createElement('button');b.className='btn'+(selectedSchool===code?' active':'');b.innerHTML=`${code} ${name}<small>学校終了 ${end}</small>`;b.onclick=()=>{selectedSchool=code;localStorage.setItem('school',code);renderSelectors()};sg.appendChild(b)});
-  const ag=document.getElementById('afterGrid');ag.innerHTML='';
-  (hol?holidayTypes:afterTypes).forEach(([code,name])=>{const b=document.createElement('button');b.className='btn'+(selectedAfter===code?' active':'');b.textContent=`${code} ${name}`;b.onclick=()=>{selectedAfter=code;localStorage.setItem('after',code);renderSelectors()};ag.appendChild(b)});
-  if(hol && !['H1','H2','H3'].includes(selectedAfter)){selectedAfter='H1';localStorage.setItem('after','H1');renderSelectors();}
-  if(!hol && !['A','B','D'].includes(selectedAfter)){selectedAfter='A';localStorage.setItem('after','A');renderSelectors();}
+  const mode=dayDecision(new Date(),'today').mode;
+  const holiday=mode==='holiday';
+  $('schoolChoicesWrap').classList.toggle('hidden',holiday);
+  $('afterLabel').textContent=holiday?'今日のプラン':'放課後';
+  if(holiday&&!['H1','H2','H3'].includes(selectedAfter))selectedAfter='H1';
+  if(!holiday&&!['A','B','D'].includes(selectedAfter))selectedAfter='A';
+  $('schoolGrid').innerHTML='';
+  schoolTypes.forEach(([c,n,e])=>{const b=document.createElement('button');b.className='choice'+(selectedSchool===c?' active':'');b.innerHTML=`${c} ${n}<small>学校終了 ${e}</small>`;b.onclick=()=>{selectedSchool=c;renderSelectors()};$('schoolGrid').appendChild(b)});
+  $('afterGrid').innerHTML='';
+  (holiday?holidayAfter:schoolAfter).forEach(([c,n])=>{const b=document.createElement('button');b.className='choice'+(selectedAfter===c?' active':'');b.textContent=`${c} ${n}`;b.onclick=()=>{selectedAfter=c;renderSelectors()};$('afterGrid').appendChild(b)});
+}
+
+function nightEvents(){
+  const tomorrow=dayDecision(addDays(new Date(),1),'tomorrow');
+  if(tomorrow.mode==='school')return [
+    ['19:35','🛁 浴槽にお湯をためる','入浴10分前'],['19:45','♨️ 入浴開始','浴槽に10分浸かる'],['21:00','🌙 就寝準備','強いアラーム推奨'],['21:30','😴 就寝','翌朝の学校に備える']
+  ];
+  return [
+    ['20:35','🛁 浴槽にお湯をためる','入浴10分前'],['20:45','♨️ 入浴開始','浴槽に10分浸かる'],['22:00','🌙 就寝準備','強いアラーム推奨'],['22:30','😴 就寝','翌日は休日モード']
+  ];
 }
 function buildSchedule(){
-  const hol=isHoliday(new Date()); const e=[];
-  if(hol){
-    if(selectedAfter==='H1'){e.push(['11:00','🏋️ 筋トレ開始','90分'],['12:30','✅ 筋トレ終了','昼食・回復へ']);}
-    if(selectedAfter==='H2'){e.push(['19:00','🎸 部活終了','帰宅・夕食へ']);}
-    e.push(['20:50','🛁 浴槽にお湯をためる','入浴10分前'],['21:00','♨️ 入浴開始','浴槽に10分'],['22:00','🌙 就寝準備','アラーム推奨'],['22:30','😴 就寝','9時間前後を確保']);
-  } else {
-    const s=schoolTypes.find(x=>x[0]===selectedSchool)||schoolTypes[0]; const end=s[2]; e.push([end,'🏫 学校終了','次の予定へ']);
-    if(selectedAfter==='A'){const gs=addMin(end,35), ge=addMin(gs,90); e.push([gs,'🏋️ 筋トレ開始','90分'],[ge,'✅ 筋トレ終了','帰宅・回復へ'],['19:35','🛁 浴槽にお湯をためる','入浴10分前'],['19:45','♨️ 入浴開始','浴槽に10分'],['21:00','🌙 就寝準備','アラーム推奨'],['21:30','😴 就寝','8時間45分を狙う']);}
-    else if(selectedAfter==='B'){e.push(['19:00','🎸 部活終了','帰宅・夕食へ'],['20:05','🛁 浴槽にお湯をためる','入浴10分前'],['20:15','♨️ 入浴開始','浴槽に10分'],['21:15','🌙 就寝準備','アラーム推奨'],['21:45','😴 就寝','8時間30分を狙う']);}
-    else {e.push(['19:35','🛁 浴槽にお湯をためる','入浴10分前'],['19:45','♨️ 入浴開始','浴槽に10分'],['21:00','🌙 就寝準備','アラーム推奨'],['21:30','😴 就寝','8時間45分を狙う']);}
+  const mode=dayDecision(new Date(),'today').mode;const e=[];
+  if(mode==='holiday'){
+    if(selectedAfter==='H1')e.push(['11:00','🏋️ 筋トレ開始','90分'],['12:30','✅ 筋トレ終了','昼食・回復へ']);
+    if(selectedAfter==='H2')e.push(['19:00','🎸 部活終了','帰宅・夕食へ']);
+  }else{
+    const s=schoolTypes.find(x=>x[0]===selectedSchool)||schoolTypes[0];const end=s[2];e.push([end,'🏫 学校終了','次の予定へ']);
+    if(selectedAfter==='A'){const start=addMin(end,35),finish=addMin(start,90);e.push([start,'🏋️ 筋トレ開始','90分'],[finish,'✅ 筋トレ終了','帰宅・回復へ'])}
+    if(selectedAfter==='B')e.push(['19:00','🎸 部活終了','帰宅・夕食へ']);
   }
-  return e.sort((a,b)=>toMin(a[0])-toMin(b[0]));
+  e.push(...nightEvents());return e.sort((a,b)=>toMin(a[0])-toMin(b[0]));
 }
-function renderSchedule(){
-  const e=buildSchedule(), tl=document.getElementById('timeline');tl.innerHTML='';
-  e.forEach(([t,l,d])=>{const el=document.createElement('div');el.className='event';el.innerHTML=`<div class=time>${t}</div><div class=dotcol><div class=dot></div></div><div><div class=label>${l}</div><div class=desc>${d}</div></div>`;tl.appendChild(el)});
-  const hol=isHoliday(new Date());document.getElementById('scheduleBadge').textContent=hol?selectedAfter:`${selectedSchool}${selectedAfter}`;document.getElementById('modePill').textContent=hol?'休日':'学校日';
-  const now=new Date(), upcoming=e.find(x=>todayAt(x[0])>now);document.getElementById('nextTitle').textContent=upcoming?upcoming[1]:'今日の予定は終了';document.getElementById('nextTime').textContent=upcoming?`${upcoming[0]} ・ ${upcoming[2]}`:'おつかれさま';
-  const first=toMin(e[0][0]),last=toMin(e[e.length-1][0]),cur=now.getHours()*60+now.getMinutes();const pct=Math.max(0,Math.min(100,(cur-first)/(last-first)*100));document.getElementById('progressBar').style.width=pct+'%';
+function renderTimeline(){
+  const e=buildSchedule(),now=new Date();$('timeline').innerHTML='';
+  e.forEach(([t,title,desc])=>{const done=atToday(t)<=now;const row=document.createElement('div');row.className='event'+(done?' done':'');row.innerHTML=`<div class="time">${t}</div><div class="rail"><div class="dot"></div></div><div><div class="evt-title">${title}</div><div class="evt-desc">${desc}</div></div>`;$('timeline').appendChild(row)});
+  const upcoming=e.find(x=>atToday(x[0])>now);$('nextTitle').textContent=upcoming?upcoming[1]:'今日の重要予定は終了';$('nextSub').textContent=upcoming?`${upcoming[0]} ・ ${upcoming[2]}`:'おつかれさま';
+  const mode=dayDecision(new Date(),'today').mode;$('scheduleCode').textContent=mode==='holiday'?selectedAfter:`${selectedSchool}${selectedAfter}`;
+  const mins=now.getHours()*60+now.getMinutes();$('dayProgress').style.width=`${Math.max(0,Math.min(100,(mins/(24*60))*100))}%`;
 }
+
+function weekStart(d){const x=new Date(d);const day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);x.setHours(0,0,0,0);return x}
+function renderGymCount(){const start=weekStart(new Date());let count=0;for(let i=0;i<7;i++){const d=addDays(start,i);const s=JSON.parse(localStorage.getItem(`schedule:${dateKey(d)}`)||'null');if(s&&['A','H1'].includes(s.after))count++}$('gymCount').textContent=count;$('gymBar').style.width=`${Math.min(100,count/4*100)}%`;$('gymMessage').textContent=count>=4?'今週の目標4回に到達しています。':`今週あと ${4-count} 回で目標です。`}
+
+function updateOverrideUI(){['today','tomorrow'].forEach(which=>{const v=manualOverride(which);const root=$(which+'Override');root.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.v===v))});$('vacationSwitch').classList.toggle('on',vacationMode())}
+function bindSettings(){
+  $('settingsBtn').onclick=()=>{$('settingsPanel').classList.toggle('show');$('settingsBtn').textContent=$('settingsPanel').classList.contains('show')?'閉じる':'開く'};
+  $('vacationSwitch').onclick=()=>{localStorage.setItem('vacationMode',vacationMode()?'0':'1');refreshAll()};
+  ['today','tomorrow'].forEach(which=>$(which+'Override').querySelectorAll('button').forEach(b=>b.onclick=()=>{setManualOverride(which,b.dataset.v);refreshAll()}));
+}
+
 function makeICS(){
-  const events=buildSchedule(); const now=new Date(); const y=now.getFullYear(),m=pad(now.getMonth()+1),d=pad(now.getDate());
+  const events=buildSchedule(),d=new Date(),ymd=`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;
   const esc=s=>s.replace(/\\/g,'\\\\').replace(/,/g,'\\,').replace(/;/g,'\\;').replace(/\n/g,'\\n');
-  let out=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//DayFlow//JP','CALSCALE:GREGORIAN','METHOD:PUBLISH'];
-  events.forEach(([t,l,desc],i)=>{const [hh,mm]=t.split(':'); const dt=`${y}${m}${d}T${hh}${mm}00`; const end=addMin(t,10),[eh,em]=end.split(':');out.push('BEGIN:VEVENT',`UID:${Date.now()}-${i}@dayflow`,`DTSTAMP:${y}${m}${d}T000000Z`,`DTSTART:${dt}`,`DTEND:${y}${m}${d}T${eh}${em}00`,`SUMMARY:${esc(l)}`,`DESCRIPTION:${esc(desc)}`,'BEGIN:VALARM','TRIGGER:PT0M','ACTION:DISPLAY',`DESCRIPTION:${esc(l)}`,'END:VALARM','END:VEVENT');});
-  out.push('END:VCALENDAR'); return out.join('\r\n');
+  let out=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//DayFlow v2//JP','CALSCALE:GREGORIAN','METHOD:PUBLISH'];
+  events.forEach(([t,title,desc],i)=>{const[h,m]=t.split(':');const end=addMin(t,10),[eh,em]=end.split(':');out.push('BEGIN:VEVENT',`UID:${ymd}-${i}-${Date.now()}@dayflow`,`DTSTAMP:${ymd}T000000Z`,`DTSTART:${ymd}T${h}${m}00`,`DTEND:${ymd}T${eh}${em}00`,`SUMMARY:${esc(title)}`,`DESCRIPTION:${esc(desc)}`,'BEGIN:VALARM','TRIGGER:PT0M','ACTION:DISPLAY',`DESCRIPTION:${esc(title)}`,'END:VALARM','END:VEVENT')});out.push('END:VCALENDAR');return out.join('\r\n')
 }
-function downloadICS(){const blob=new Blob([makeICS()],{type:'text/calendar;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`DayFlow-${key(new Date())}.ics`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}
-async function testNotification(){
-  if(!('Notification' in window)){alert('このブラウザではWeb通知に対応していません。iPhoneではホーム画面に追加したWebアプリで試してください。');return}
-  const p=await Notification.requestPermission();if(p!=='granted'){alert('通知が許可されていません。');return}
-  setTimeout(()=>new Notification('DayFlow テスト',{body:'10秒後の通知テスト成功です。'}),10000);alert('10秒後に通知を試します。Webアプリを完全終了すると届かない場合があります。');
+async function shareICS(){
+  const content=makeICS(),name=`DayFlow-${dateKey(new Date())}.ics`,file=new File([content],name,{type:'text/calendar'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:'DayFlow 今日の予定'});return}catch(e){if(e.name==='AbortError')return}}
+  const blob=new Blob([content],{type:'text/calendar;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)
 }
-document.getElementById('applyBtn').onclick=()=>{localStorage.setItem('configured','1');renderSchedule();document.getElementById('nextTitle').scrollIntoView({behavior:'smooth'})};
-document.getElementById('icsBtn').onclick=downloadICS;document.getElementById('testBtn').onclick=testNotification;
-renderSelectors();renderSchedule();setInterval(renderSchedule,30000);
-if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
+async function copyCode(){const mode=dayDecision(new Date(),'today').mode;const code=mode==='holiday'?selectedAfter:`${selectedSchool}${selectedAfter}`;try{await navigator.clipboard.writeText(code);$('copyBtn').textContent=`コピーしました：${code}`;setTimeout(()=>$('copyBtn').textContent='今日の選択コードをコピー',1600)}catch{alert(`今日のコード：${code}`)}}
+
+async function loadRemoteStatus(showFeedback=false){
+  try{const r=await fetch(`school-status.json?ts=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw new Error('status');remoteStatus=await r.json();localStorage.setItem('remoteStatusCache',JSON.stringify(remoteStatus));if(showFeedback)$('refreshBtn').textContent='更新済み'}catch(e){try{remoteStatus=JSON.parse(localStorage.getItem('remoteStatusCache')||'null')}catch{}if(showFeedback)$('refreshBtn').textContent='オフライン'}
+  if(remoteStatus){const when=new Date(remoteStatus.updatedAt);$('schoolSource').textContent=`${remoteStatus.sourceLabel||'学校情報'} ・ ${isNaN(when)?'更新日不明':new Intl.DateTimeFormat('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(when)}更新`}else $('schoolSource').textContent='学校情報ファイルを取得できませんでした';
+  setTimeout(()=>{$('refreshBtn').textContent='更新'},1400);refreshAll(false)
+}
+function refreshAll(reloadSelectors=true){renderHeader();if(reloadSelectors)renderSelectors();renderTimeline();renderGymCount();updateOverrideUI()}
+
+$('applyBtn').onclick=()=>{saveSelection();refreshAll();window.scrollTo({top:0,behavior:'smooth'})};
+$('icsBtn').onclick=shareICS;$('copyBtn').onclick=copyCode;$('refreshBtn').onclick=()=>loadRemoteStatus(true);
+bindSettings();loadSelection();refreshAll();loadRemoteStatus();setInterval(()=>{renderTimeline()},30000);
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
-</body></html>
+</body>
+</html>

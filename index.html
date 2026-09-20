@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#f6f7f9" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="DayFlow" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <title>DayFlow</title>
+  <style>
+    :root{--bg:#f4f5f7;--card:#fff;--text:#121316;--muted:#6b7078;--line:#e6e8eb;--accent:#0a84ff;--danger:#ff3b30;--shadow:0 10px 30px rgba(0,0,0,.06)}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Hiragino Sans",sans-serif}
+    .wrap{max-width:760px;margin:auto;padding:calc(env(safe-area-inset-top) + 18px) 16px calc(env(safe-area-inset-bottom) + 40px)}
+    header{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 18px}.brand{font-size:30px;font-weight:800;letter-spacing:-.8px}.date{font-size:13px;color:var(--muted);text-align:right}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin:12px 0;box-shadow:var(--shadow)}
+    .hero{padding:22px}.kicker{font-size:13px;color:var(--muted);font-weight:700}.next{font-size:28px;font-weight:800;margin-top:7px;letter-spacing:-.5px}.sub{color:var(--muted);font-size:14px;margin-top:6px}
+    .progress{height:8px;background:#eceef1;border-radius:999px;margin-top:18px;overflow:hidden}.bar{height:100%;width:0;background:var(--accent);border-radius:999px;transition:.3s}
+    h2{font-size:18px;margin:0 0 12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:16px;padding:14px;text-align:left;font-size:15px;font-weight:700;min-height:58px}.btn small{display:block;color:var(--muted);font-weight:500;margin-top:4px}.btn.active{border-color:var(--accent);box-shadow:0 0 0 3px rgba(10,132,255,.12)}
+    .primary{width:100%;border:0;border-radius:16px;background:var(--accent);color:#fff;padding:15px 18px;font-size:16px;font-weight:800}.secondary{width:100%;border:1px solid var(--line);border-radius:16px;background:#fff;color:var(--text);padding:13px 18px;font-size:15px;font-weight:700;margin-top:10px}.danger{color:var(--danger)}
+    .timeline{display:grid;gap:0}.event{display:grid;grid-template-columns:66px 22px 1fr;gap:8px;align-items:start}.event .time{font-variant-numeric:tabular-nums;font-weight:700;font-size:14px;padding-top:2px}.dotcol{position:relative;display:flex;justify-content:center;height:52px}.dot{width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:5px;z-index:2}.dotcol:after{content:"";position:absolute;top:14px;bottom:-7px;width:2px;background:var(--line)}.event:last-child .dotcol:after{display:none}.label{font-weight:700;font-size:15px}.desc{font-size:12px;color:var(--muted);margin-top:2px}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#eef6ff;color:#0065c8;font-weight:700;font-size:12px}.row{display:flex;gap:10px;align-items:center;justify-content:space-between}.hint{font-size:12px;color:var(--muted);line-height:1.55}.hidden{display:none}.pill{padding:6px 10px;border-radius:999px;background:#f0f1f3;font-size:12px;font-weight:700;color:var(--muted)}
+    @media(max-width:460px){.grid{grid-template-columns:1fr}.brand{font-size:28px}.next{font-size:24px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header><div class="brand">DayFlow</div><div class="date" id="dateLabel"></div></header>
+  <section class="card hero">
+    <div class="row"><div class="kicker">今日の次の予定</div><div class="pill" id="modePill">未設定</div></div>
+    <div class="next" id="nextTitle">スケジュールを選択</div>
+    <div class="sub" id="nextTime">12:00に選ぶ想定です</div>
+    <div class="progress"><div class="bar" id="progressBar"></div></div>
+  </section>
+
+  <section class="card" id="selectorCard">
+    <h2 id="selectorTitle">今日のスケジュール</h2>
+    <div id="schoolBlock">
+      <div class="kicker" style="margin-bottom:8px">学校の日課</div>
+      <div class="grid" id="schoolGrid"></div>
+    </div>
+    <div style="height:14px"></div>
+    <div class="kicker" style="margin-bottom:8px" id="afterKicker">放課後</div>
+    <div class="grid" id="afterGrid"></div>
+    <div style="height:14px"></div>
+    <button class="primary" id="applyBtn">この予定にする</button>
+    <div class="hint" style="margin-top:10px">選択した予定はこの端末に保存されます。通知登録は下の「iPhone通知用カレンダーを書き出す」から行えます。</div>
+  </section>
+
+  <section class="card">
+    <div class="row"><h2 style="margin:0">今日のタイムライン</h2><span class="badge" id="scheduleBadge">未設定</span></div>
+    <div style="height:14px"></div>
+    <div class="timeline" id="timeline"></div>
+    <button class="secondary" id="icsBtn">iPhone通知用カレンダーを書き出す</button>
+    <button class="secondary" id="testBtn">10秒後のテスト通知</button>
+    <div class="hint" style="margin-top:10px">iPhoneだけで正確な時刻通知を確実に出すため、カレンダー書き出しでは各重要予定にアラートを付けます。Webアプリを閉じた状態での独自通知はiOSの制約上、静的Webアプリだけでは保証できません。</div>
+  </section>
+
+  <section class="card">
+    <h2>ホーム画面に追加</h2>
+    <div class="hint">Safariで開き、共有ボタン →「ホーム画面に追加」。以後は通常のアプリのように起動できます。</div>
+  </section>
+</div>
+<script>
+const schoolTypes = [
+  ['①','50分授業','15:55'],['②','那商TIME','15:55'],['③','特別日課45分','15:05'],['④','45分授業','15:25'],['⑤','特別日課','15:35'],['⑥','那商TIME45分','15:50']
+];
+const afterTypes = [
+  ['A','🏋️ 筋トレ90分'],['B','🎸 部活19:00まで'],['D','🏠 休養']
+];
+const holidayTypes = [
+  ['H1','🏋️ 筋トレ90分'],['H2','🎸 部活19:00まで'],['H3','🛌 完全休養']
+];
+let selectedSchool = localStorage.getItem('school') || '①';
+let selectedAfter = localStorage.getItem('after') || 'A';
+
+function pad(n){return String(n).padStart(2,'0')}
+function key(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
+function nthMonday(y,m,n){let d=new Date(y,m-1,1), offset=(8-d.getDay())%7; return 1+offset+(n-1)*7}
+function equinoxDay(y,type){ // good approximation 1980-2099
+  if(type==='spring') return Math.floor(20.8431 + 0.242194*(y-1980) - Math.floor((y-1980)/4));
+  return Math.floor(23.2488 + 0.242194*(y-1980) - Math.floor((y-1980)/4));
+}
+function baseJapanHolidays(y){
+  const s=new Set(); const add=(m,d)=>s.add(`${y}-${pad(m)}-${pad(d)}`);
+  add(1,1); add(1,nthMonday(y,1,2)); add(2,11); if(y>=2020) add(2,23); add(3,equinoxDay(y,'spring'));
+  add(4,29); add(5,3); add(5,4); add(5,5); add(7,nthMonday(y,7,3)); add(8,11);
+  add(9,nthMonday(y,9,3)); add(9,equinoxDay(y,'autumn')); add(10,nthMonday(y,10,2)); add(11,3); add(11,23);
+  return s;
+}
+function japanHolidays(y){
+  const s=baseJapanHolidays(y);
+  // citizens' holiday between two holidays
+  for(let d=new Date(y,0,2); d<=new Date(y,11,30); d.setDate(d.getDate()+1)){
+    const k=key(d); if(s.has(k)) continue;
+    const p=new Date(d);p.setDate(p.getDate()-1); const n=new Date(d);n.setDate(n.getDate()+1);
+    if(s.has(key(p)) && s.has(key(n))) s.add(k);
+  }
+  // substitute holidays: Sunday holiday -> next non-holiday
+  const originals=[...s];
+  for(const k of originals){const d=new Date(k+'T00:00:00'); if(d.getDay()===0){let x=new Date(d);do{x.setDate(x.getDate()+1)}while(s.has(key(x))); s.add(key(x));}}
+  return s;
+}
+function isHoliday(d){return d.getDay()===0||d.getDay()===6||japanHolidays(d.getFullYear()).has(key(d));}
+function formatDate(d){return new Intl.DateTimeFormat('ja-JP',{month:'long',day:'numeric',weekday:'short'}).format(d)}
+function toMin(t){const[a,b]=t.split(':').map(Number);return a*60+b}
+function addMin(t,m){let v=toMin(t)+m;return `${pad(Math.floor(v/60)%24)}:${pad(v%60)}`}
+function todayAt(t){const [h,m]=t.split(':').map(Number),d=new Date();d.setHours(h,m,0,0);return d}
+function renderSelectors(){
+  const hol=isHoliday(new Date());
+  document.getElementById('dateLabel').innerHTML=`${formatDate(new Date())}<br>${hol?'休日モード':'学校日モード'}`;
+  document.getElementById('schoolBlock').classList.toggle('hidden',hol);
+  document.getElementById('selectorTitle').textContent=hol?'休日・祝日のスケジュール':'今日のスケジュール';
+  document.getElementById('afterKicker').textContent=hol?'今日のプラン':'放課後';
+  const sg=document.getElementById('schoolGrid');sg.innerHTML='';
+  schoolTypes.forEach(([code,name,end])=>{const b=document.createElement('button');b.className='btn'+(selectedSchool===code?' active':'');b.innerHTML=`${code} ${name}<small>学校終了 ${end}</small>`;b.onclick=()=>{selectedSchool=code;localStorage.setItem('school',code);renderSelectors()};sg.appendChild(b)});
+  const ag=document.getElementById('afterGrid');ag.innerHTML='';
+  (hol?holidayTypes:afterTypes).forEach(([code,name])=>{const b=document.createElement('button');b.className='btn'+(selectedAfter===code?' active':'');b.textContent=`${code} ${name}`;b.onclick=()=>{selectedAfter=code;localStorage.setItem('after',code);renderSelectors()};ag.appendChild(b)});
+  if(hol && !['H1','H2','H3'].includes(selectedAfter)){selectedAfter='H1';localStorage.setItem('after','H1');renderSelectors();}
+  if(!hol && !['A','B','D'].includes(selectedAfter)){selectedAfter='A';localStorage.setItem('after','A');renderSelectors();}
+}
+function buildSchedule(){
+  const hol=isHoliday(new Date()); const e=[];
+  if(hol){
+    if(selectedAfter==='H1'){e.push(['11:00','🏋️ 筋トレ開始','90分'],['12:30','✅ 筋トレ終了','昼食・回復へ']);}
+    if(selectedAfter==='H2'){e.push(['19:00','🎸 部活終了','帰宅・夕食へ']);}
+    e.push(['20:50','🛁 浴槽にお湯をためる','入浴10分前'],['21:00','♨️ 入浴開始','浴槽に10分'],['22:00','🌙 就寝準備','アラーム推奨'],['22:30','😴 就寝','9時間前後を確保']);
+  } else {
+    const s=schoolTypes.find(x=>x[0]===selectedSchool)||schoolTypes[0]; const end=s[2]; e.push([end,'🏫 学校終了','次の予定へ']);
+    if(selectedAfter==='A'){const gs=addMin(end,35), ge=addMin(gs,90); e.push([gs,'🏋️ 筋トレ開始','90分'],[ge,'✅ 筋トレ終了','帰宅・回復へ'],['19:35','🛁 浴槽にお湯をためる','入浴10分前'],['19:45','♨️ 入浴開始','浴槽に10分'],['21:00','🌙 就寝準備','アラーム推奨'],['21:30','😴 就寝','8時間45分を狙う']);}
+    else if(selectedAfter==='B'){e.push(['19:00','🎸 部活終了','帰宅・夕食へ'],['20:05','🛁 浴槽にお湯をためる','入浴10分前'],['20:15','♨️ 入浴開始','浴槽に10分'],['21:15','🌙 就寝準備','アラーム推奨'],['21:45','😴 就寝','8時間30分を狙う']);}
+    else {e.push(['19:35','🛁 浴槽にお湯をためる','入浴10分前'],['19:45','♨️ 入浴開始','浴槽に10分'],['21:00','🌙 就寝準備','アラーム推奨'],['21:30','😴 就寝','8時間45分を狙う']);}
+  }
+  return e.sort((a,b)=>toMin(a[0])-toMin(b[0]));
+}
+function renderSchedule(){
+  const e=buildSchedule(), tl=document.getElementById('timeline');tl.innerHTML='';
+  e.forEach(([t,l,d])=>{const el=document.createElement('div');el.className='event';el.innerHTML=`<div class=time>${t}</div><div class=dotcol><div class=dot></div></div><div><div class=label>${l}</div><div class=desc>${d}</div></div>`;tl.appendChild(el)});
+  const hol=isHoliday(new Date());document.getElementById('scheduleBadge').textContent=hol?selectedAfter:`${selectedSchool}${selectedAfter}`;document.getElementById('modePill').textContent=hol?'休日':'学校日';
+  const now=new Date(), upcoming=e.find(x=>todayAt(x[0])>now);document.getElementById('nextTitle').textContent=upcoming?upcoming[1]:'今日の予定は終了';document.getElementById('nextTime').textContent=upcoming?`${upcoming[0]} ・ ${upcoming[2]}`:'おつかれさま';
+  const first=toMin(e[0][0]),last=toMin(e[e.length-1][0]),cur=now.getHours()*60+now.getMinutes();const pct=Math.max(0,Math.min(100,(cur-first)/(last-first)*100));document.getElementById('progressBar').style.width=pct+'%';
+}
+function makeICS(){
+  const events=buildSchedule(); const now=new Date(); const y=now.getFullYear(),m=pad(now.getMonth()+1),d=pad(now.getDate());
+  const esc=s=>s.replace(/\\/g,'\\\\').replace(/,/g,'\\,').replace(/;/g,'\\;').replace(/\n/g,'\\n');
+  let out=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//DayFlow//JP','CALSCALE:GREGORIAN','METHOD:PUBLISH'];
+  events.forEach(([t,l,desc],i)=>{const [hh,mm]=t.split(':'); const dt=`${y}${m}${d}T${hh}${mm}00`; const end=addMin(t,10),[eh,em]=end.split(':');out.push('BEGIN:VEVENT',`UID:${Date.now()}-${i}@dayflow`,`DTSTAMP:${y}${m}${d}T000000Z`,`DTSTART:${dt}`,`DTEND:${y}${m}${d}T${eh}${em}00`,`SUMMARY:${esc(l)}`,`DESCRIPTION:${esc(desc)}`,'BEGIN:VALARM','TRIGGER:PT0M','ACTION:DISPLAY',`DESCRIPTION:${esc(l)}`,'END:VALARM','END:VEVENT');});
+  out.push('END:VCALENDAR'); return out.join('\r\n');
+}
+function downloadICS(){const blob=new Blob([makeICS()],{type:'text/calendar;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`DayFlow-${key(new Date())}.ics`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}
+async function testNotification(){
+  if(!('Notification' in window)){alert('このブラウザではWeb通知に対応していません。iPhoneではホーム画面に追加したWebアプリで試してください。');return}
+  const p=await Notification.requestPermission();if(p!=='granted'){alert('通知が許可されていません。');return}
+  setTimeout(()=>new Notification('DayFlow テスト',{body:'10秒後の通知テスト成功です。'}),10000);alert('10秒後に通知を試します。Webアプリを完全終了すると届かない場合があります。');
+}
+document.getElementById('applyBtn').onclick=()=>{localStorage.setItem('configured','1');renderSchedule();document.getElementById('nextTitle').scrollIntoView({behavior:'smooth'})};
+document.getElementById('icsBtn').onclick=downloadICS;document.getElementById('testBtn').onclick=testNotification;
+renderSelectors();renderSchedule();setInterval(renderSchedule,30000);
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
+</script>
+</body></html>
